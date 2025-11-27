@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لیست کارها</title>
     <link rel="stylesheet" href="style.css">
-    <!-- اضافه کردن کتابخانه Supabase -->
+    <!-- اسکریپت Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -14,38 +14,54 @@
         <header>
             <h1>لیست کارها</h1>
             <div class="header-controls">
-                <!-- دکمه‌های مربعی -->
-                <button id="authIcon" class="icon-btn" title="ورود / ثبت نام">👤</button>
-                <button id="themeToggleBtn" class="icon-btn" title="تغییر تم">🌙</button>
-                <div class="color-picker icon-btn-group">
-                    <div class="theme-color" style="background: #4CAF50;" data-color="#4CAF50"></div>
-                    <div class="theme-color" style="background: #2196F3;" data-color="#2196F3"></div>
-                    <div class="theme-color" style="background: #FF5722;" data-color="#FF5722"></div>
+                <!-- انتخاب رنگ -->
+                <div class="color-wrapper" title="تغییر رنگ تم">
+                    <input type="color" id="color-picker" value="#2563eb">
                 </div>
+                <!-- دکمه دارک مود -->
+                <button class="icon-btn" id="theme-toggle" title="حالت شب/روز">
+                    🌙
+                </button>
+                <!-- دکمه ورود/خروج -->
+                <button class="icon-btn" id="auth-btn" title="حساب کاربری">
+                    👤
+                </button>
             </div>
         </header>
 
+        <!-- وضعیت لاگین (مخفی در ابتدا) -->
+        <div id="user-status-bar" style="display:none;">
+            <span id="user-display-name">کاربر مهمان</span>
+            <button id="logout-btn">خروج</button>
+        </div>
+        <br>
+
         <div class="input-group">
-            <input type="text" id="taskInput" placeholder="کار جدید را بنویسید...">
-            <button id="addTaskBtn">افزودن</button>
+            <input type="text" id="todo-input" placeholder="چه کاری باید انجام شود؟">
+            <button id="add-btn">افزودن</button>
         </div>
 
-        <ul id="taskList">
-            <!-- لیست کارها اینجا قرار می‌گیرد -->
+        <ul id="todo-list">
+            <!-- لیست تسک‌ها اینجا ساخته می‌شود -->
         </ul>
     </div>
 
-    <!-- مودال ورود و ثبت نام -->
-    <div id="authModal" class="modal">
+    <!-- مودال ورود/ثبت نام -->
+    <div id="auth-modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2>ورود / ثبت نام</h2>
-            <p id="authMessage"></p>
-            <input type="text" id="authUsername" placeholder="نام کاربری (انگلیسی)">
-            <input type="password" id="authPassword" placeholder="رمز عبور">
-            <div class="modal-actions">
-                <button id="loginBtn">ورود</button>
-                <button id="signupBtn" class="secondary-btn">ثبت نام</button>
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">ورود به حساب</h2>
+            <p class="modal-desc">برای ذخیره آنلاین کارها وارد شوید</p>
+            
+            <input type="text" id="username-input" placeholder="نام کاربری (حروف انگلیسی)">
+            <input type="password" id="password-input" placeholder="رمز عبور (حداقل ۴ رقم)">
+            
+            <button class="primary-btn" id="submit-auth-btn">ورود</button>
+            <p id="auth-msg" style="color: red; font-size: 0.8rem; margin-top:10px;"></p>
+
+            <div class="switch-auth">
+                <span id="switch-text">حساب ندارید؟</span>
+                <a href="#" id="switch-auth-link">ثبت نام کنید</a>
             </div>
         </div>
     </div>
