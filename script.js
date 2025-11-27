@@ -408,15 +408,61 @@ function showAlert(msg) {
     openModal(els.alertModal); els.alertOkBtn.onclick = () => closeModalFunc(els.alertModal);
 }
 
-function showConfirm(msg) {
+// 1. تابع جدید تاییدیه (با قابلیت تشخیص حذف)
+function showConfirm(msg, title = 'تاییدیه', isDestructive = false) {
     return new Promise((resolve) => {
-        els.alertTitle.textContent = 'تاییدیه'; els.alertText.textContent = msg;
+        // تنظیم متن و عنوان
+        els.alertTitle.textContent = title;
+        els.alertText.textContent = msg;
         els.alertCancelBtn.style.display = 'inline-block';
+
+        // اگر عملیات حذف است (isDestructive = true)
+        if (isDestructive) {
+            els.alertOkBtn.classList.add('destructive'); // اضافه کردن رنگ قرمز
+            els.alertOkBtn.textContent = 'حذف'; // تغییر متن دکمه
+        } else {
+            els.alertOkBtn.classList.remove('destructive'); // حذف رنگ قرمز
+            els.alertOkBtn.textContent = 'باشه'; // متن عادی
+        }
+
         openModal(els.alertModal);
-        els.alertOkBtn.onclick = () => { closeModalFunc(els.alertModal); resolve(true); };
-        els.alertCancelBtn.onclick = () => { closeModalFunc(els.alertModal); resolve(false); };
+
+        // هندل کردن کلیک دکمه‌ها
+        els.alertOkBtn.onclick = () => {
+            closeModalFunc(els.alertModal);
+            resolve(true);
+        };
+        els.alertCancelBtn.onclick = () => {
+            closeModalFunc(els.alertModal);
+            resolve(false);
+        };
     });
 }
+
+// 2. تابع حذف یک تسک (آپدیت شده)
+async function deleteTask(id) {
+    // پارامترهای جدید: متن، عنوان، و true برای قرمز شدن
+    if (!await showConfirm('آیا مطمئن هستید که می‌خواهید این مورد را حذف کنید؟', 'حذف تسک', true)) return;
+    
+    tasks = tasks.filter(t => t.id !== id);
+    renderTasks();
+    if (currentUser) await supabase.from('todos').delete().eq('id', id);
+    else saveLocal();
+}
+
+// 3. تابع حذف همه تسک‌ها (آپدیت شده)
+async function deleteAllTasks() {
+    if (tasks.length === 0) return;
+    // پارامترهای جدید: متن، عنوان، و true برای قرمز شدن
+    if (!await showConfirm('همه تسک‌ها پاک شوند؟ غیرقابل برگشت است.', 'حذف همه', true)) return;
+
+    if (currentUser) await supabase.from('todos').delete().neq('id', 0);
+    tasks = [];
+    saveLocal();
+    renderTasks();
+    els.dropdown.classList.remove('show');
+}
+
 
 // Global Access
 window.openAuthModal = openAuthModal;
