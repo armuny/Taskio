@@ -11,15 +11,15 @@
 }
 
 body.dark-mode {
-    /* پالت رنگی استاندارد iOS */
-    --bg-color: #1C1C1E;      /* رنگ پس‌زمینه اصلی (System Background Dark) */
-    --container-bg: #2C2C2E;  /* رنگ باکس وسط (Secondary System Background) */
-    --text-color: #FFFFFF;    /* متن اصلی: سفید */
-    --text-light: #8E8E93;    /* متن فرعی: طوسی استاندارد اپل (System Gray) */
-    --border-color: #38383A;  /* خطوط جداکننده */
-    --shadow: 0 4px 20px rgba(0,0,0,0.4); /* سایه ملایم */
+   
+    --bg-color: #1C1C1E;     
+    --container-bg: #2C2C2E; 
+    --text-color: #FFFFFF;   
+    --text-light: #8E8E93;   
+    --border-color: #38383A; 
+    --shadow: 0 4px 20px rgba(0,0,0,0.4);
     
-    /* دکمه‌های ثانویه (مثل دکمه انصراف) */
+   
     --btn-secondary-bg: #3A3A3C; 
     --btn-secondary-text: #FFFFFF;
 }
@@ -35,12 +35,12 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
-    flex-direction: column; /* چینش عمودی برای قرارگیری لوگو بالای باکس */
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    padding: 40px 40px; /* فاصله از بالا و پایین برای اسکرول */
+    padding: 40px 40px;
     transition: background 0.3s;
     direction: rtl;
 }
@@ -54,7 +54,7 @@ body {
     font-family: 'Montserrat', sans-serif !important; 
     cursor: default;
 
-    /* تنظیم روی حالت Bold */
+   
     font-weight: 700; 
 }
 
@@ -69,7 +69,7 @@ body {
     width: 100%;
     max-width: 420px;
     position: relative;
-    /* حذف min-height ثابت برای جلوگیری از فضای خالی زیاد در موبایل */
+   
 }
 
 header {
@@ -110,7 +110,7 @@ h1 { margin: 0; font-size: 1.2rem; font-weight: 700; color: var(--text-color); }
 }
 .menu-item:hover { background: var(--bg-color); }
 .menu-item.danger { color: #ef4444; }
-.menu-item.danger:hover { background: rgba(239, 68, 68, 0.1); } /* قرمز خیلی ملایم در هاور */
+.menu-item.danger:hover { background: rgba(239, 68, 68, 0.1); }
 
 .color-grid {
     display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
@@ -156,7 +156,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .task-left { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
 
 .check-circle {
-    width: 22px; height: 22px; border: 2px solid var(--text-light); /* بوردر متناسب با تم */
+    width: 22px; height: 22px; border: 2px solid var(--text-light);
     border-radius: 50%;
     cursor: pointer; flex-shrink: 0; position: relative; opacity: 0.6;
 }
@@ -176,21 +176,21 @@ ul { list-style: none; padding: 0; margin: 0; }
     opacity: 0.6;
     transition: 0.2s;
     
-    /* --- خطوط جدید برای وسط‌چین کردن دقیق --- */
-    display: flex;             /* فعال کردن فلکس برای دکمه */
-    align-items: center;       /* وسط‌چین عمودی آیکون داخل دکمه */
-    justify-content: center;   /* وسط‌چین افقی آیکون داخل دکمه */
-    height: 40px;             /* ارتفاع ثابت برای تراز بهتر */
-    width: 40px;              /* عرض ثابت */
-    padding: 0;               /* حذف فاصله‌های اضافی */
-    margin-left: -10px;       /* تنظیم فاصله ریز از لبه چپ */
+   
+    display: flex;            
+    align-items: center;      
+    justify-content: center;  
+    height: 40px;            
+    width: 40px;             
+    padding: 0;              
+    margin-left: -10px;      
 }
 
 .delete-btn:hover {
     color: var(--danger);
     opacity: 1;
-    background-color: rgba(255, 59, 48, 0.1); /* سایه قرمز خیلی کمرنگ موقع هاور */
-    border-radius: 50%; /* گرد شدن دکمه موقع هاور */
+    background-color: rgba(255, 59, 48, 0.1);
+    border-radius: 50%;
 }
 
 
@@ -205,7 +205,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .task-item.completed { opacity: 0.6; background: transparent; border: 1px solid var(--border-color); }
 .task-item.completed .task-text { text-decoration: line-through; }
 
-/* Auth Footer & Secondary Button */
+
 .auth-footer {
     display: flex; align-items: center; justify-content: center;
     gap: 10px; margin-top: 20px; font-size: 0.9rem; color: var(--text-color);
@@ -219,7 +219,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .secondary-btn:hover { opacity: 0.8; }
 
-/* Modal */
+
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.6); justify-content: center; align-items: center;
@@ -245,18 +245,18 @@ ul { list-style: none; padding: 0; margin: 0; }
 .close-modal {
     position: absolute;
     top: 20px;
-    left: 20px; /* سمت چپ بالا قرار می‌گیرد */
+    left: 20px;
     
     width: 32px;
     height: 32px;
     
-    /* پس‌زمینه قرمز خیلی کمرنگ */
+   
     background-color: rgba(255, 59, 48, 0.15);
     
-    /* رنگ ضربدر قرمز پررنگ */
+   
     color: #ff3b30;
     
-    border-radius: 50%; /* دایره کامل */
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -266,10 +266,10 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 
 .close-modal:hover {
-    /* در حالت هاور: قرمز پر می‌شود و ضربدر سفید می‌شود */
+   
     background-color: #ff3b30;
     color: white;
-    transform: scale(1.1); /* کمی بزرگتر شود */
+    transform: scale(1.1);
 }
 
 .error-msg { color: #ef4444; font-size: 0.8rem; min-height: 1rem; margin: 5px 0; }
@@ -277,13 +277,13 @@ ul { list-style: none; padding: 0; margin: 0; }
 .alert-buttons button { padding: 8px 20px; border-radius: 8px; border:none; cursor: pointer; }
 #alert-ok-btn { background: var(--primary-color); color: white; }
 
-/* استایل مخصوص دکمه حذف (قرمز) */
+
 #alert-ok-btn.destructive {
-    background-color: #ff3b30 !important; /* رنگ قرمز iOS */
+    background-color: #ff3b30 !important;
     color: white !important;
     box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
 }
 
 #alert-ok-btn.destructive:hover {
-    background-color: #d32f2f !important; /* قرمز تیره‌تر موقع هاور */
+    background-color: #d32f2f !important;
 }
