@@ -256,3 +256,14 @@ ul { list-style: none; padding: 0; margin: 0; }
 .alert-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
 .alert-buttons button { padding: 8px 20px; border-radius: 8px; border:none; cursor: pointer; }
 #alert-ok-btn { background: var(--primary-color); color: white; }
+
+/* استایل مخصوص دکمه حذف (قرمز) */
+#alert-ok-btn.destructive {
+    background-color: #ff3b30 !important; /* رنگ قرمز iOS */
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+}
+
+#alert-ok-btn.destructive:hover {
+    background-color: #d32f2f !important; /* قرمز تیره‌تر موقع هاور */
+}
