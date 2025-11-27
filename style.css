@@ -40,7 +40,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    padding: 40px 20px; /* فاصله از بالا و پایین برای اسکرول */
+    padding: 40px 40px; /* فاصله از بالا و پایین برای اسکرول */
     transition: background 0.3s;
     direction: rtl;
 }
