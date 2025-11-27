@@ -34,34 +34,36 @@ body {
 
 .container {
     background: var(--container-bg);
-    padding: 2.5rem;
+    padding: 2rem;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    width: 100%; max-width: 500px; /* عرض بهینه */
+    width: 100%; max-width: 500px; /* عرض ثابت ۵۰۰ پیکسل */
     transition: all 0.3s ease;
     position: relative;
+    min-height: 400px; /* ارتفاع حداقل برای جلوگیری از جمع شدن */
 }
 
 /* --- Header --- */
 header {
     display: flex;
-    justify-content: space-between; /* فاصله بین تایتل و دکمه‌ها */
+    justify-content: space-between; /* فاصله بین تایتل و آیکون‌ها */
     align-items: center;
     margin-bottom: 2.5rem;
+    height: 40px;
 }
 
 h1 { font-size: 1.5rem; margin: 0; font-weight: 900; letter-spacing: -0.5px; color: var(--text); }
 
-.header-controls { display: flex; gap: 12px; align-items: center; }
+.header-controls { display: flex; gap: 8px; align-items: center; direction: ltr; /* آیکون‌ها چپ چین */ }
 
 .icon-btn {
     background: transparent; border: none; color: var(--text-light);
     cursor: pointer; padding: 8px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.2s; width: 40px; height: 40px;
 }
 .icon-btn:hover, .icon-btn.active { color: var(--primary); background: rgba(59, 130, 246, 0.1); }
-.icon-btn svg { width: 24px; height: 24px; }
+.icon-btn svg { width: 22px; height: 22px; }
 
 /* --- Dropdown --- */
 .user-menu-container { position: relative; }
@@ -79,17 +81,18 @@ h1 { font-size: 1.5rem; margin: 0; font-weight: 900; letter-spacing: -0.5px; col
 @keyframes popIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- Inputs --- */
-.input-group { display: flex; gap: 12px; margin-bottom: 30px; }
-/* در RTL: اینپوت اول است (راست)، دکمه دوم است (چپ) */
+.input-group { display: flex; gap: 12px; margin-bottom: 30px; align-items: stretch; }
+
 input[type="text"], input[type="password"] {
-    flex: 1; padding: 16px; border: none; border-radius: 18px;
+    flex: 1; padding: 0 16px; border: none; border-radius: 18px;
     background: var(--input-bg); color: var(--text); font-size: 1rem; transition: 0.2s;
+    height: 56px; /* ارتفاع یکسان با دکمه */
 }
 input:focus { box-shadow: 0 0 0 2px var(--primary); background: var(--container-bg); }
 
 #add-btn {
     background: var(--primary); color: white; border: none;
-    width: 58px; height: 58px; border-radius: 18px; cursor: pointer;
+    width: 56px; height: 56px; border-radius: 18px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     transition: transform 0.1s;
@@ -130,10 +133,10 @@ li.completed .check-circle { background: var(--primary); border-color: var(--pri
     background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
     justify-content: center; align-items: center; z-index: 100; opacity: 0; transition: 0.3s;
 }
-.modal-overlay.open { display: flex; opacity: 1; }
+.modal-overlay.open { opacity: 1; }
 .modal-box {
     background: var(--container-bg); padding: 2rem; border-radius: 28px;
-    width: 90%; max-width: 400px; text-align: center;
+    width: 90%; max-width: 380px; text-align: center;
     box-shadow: 0 20px 50px rgba(0,0,0,0.3); transform: scale(0.9); transition: 0.3s; position: relative;
 }
 .modal-overlay.open .modal-box { transform: scale(1); }
@@ -141,8 +144,8 @@ li.completed .check-circle { background: var(--primary); border-color: var(--pri
 .primary-btn { background: var(--primary); color: white; padding: 14px; border-radius: 14px; border: none; width: 100%; font-size: 1rem; cursor: pointer; }
 .secondary-btn { background: transparent; color: var(--text-light); border: 2px solid var(--border) !important; padding: 14px; border-radius: 14px; width: 100%; cursor: pointer; }
 .close-modal-x { position: absolute; top: 15px; left: 15px; background: transparent; border: none; font-size: 24px; color: var(--text-light); cursor: pointer; }
-.color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin: 25px 0; justify-items: center; }
-.color-option { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.2s; }
+.color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 20px 0; justify-items: center; }
+.color-option { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform 0.2s; }
 .color-option:hover { transform: scale(1.15); }
 .color-option.selected { border-color: var(--text); transform: scale(1.1); }
 .cancel-btn { background: var(--bg); color: var(--text); border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; }
