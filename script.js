@@ -23,7 +23,7 @@ const els = {
     authModal: document.getElementById('auth-modal'),
     closeModal: document.querySelector('.close-modal'),
     submitAuthBtn: document.getElementById('submit-auth-btn'),
-    switchAuthLink: document.getElementById('switch-auth-link'),
+    switchAuthBtn: document.getElementById('switch-auth-btn'), // دکمه سوییچ جدید
     authFooterLinks: document.getElementById('auth-footer-links'),
     modalTitle: document.getElementById('modal-title'),
     fnameInput: document.getElementById('fname-input'),
@@ -31,6 +31,7 @@ const els = {
     usernameInput: document.getElementById('username-input'),
     passwordInput: document.getElementById('password-input'),
     signupFields: document.getElementById('signup-fields'),
+    credentialsFields: document.getElementById('credentials-fields'),
     authMsg: document.getElementById('auth-msg'),
     alertModal: document.getElementById('alert-modal'),
     alertTitle: document.getElementById('alert-title'),
@@ -70,8 +71,11 @@ function renderMenu() {
     const isDark = document.body.classList.contains('dark-mode');
     let menuHTML = '';
 
+    // آیکون‌های SVG برای تم
+    const sunIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+    const moonIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+
     if (currentUser) {
-        // فقط نام و نام خانوادگی یکبار نمایش داده می‌شود
         const meta = currentUser.user_metadata || {};
         const fullName = (meta.first_name || '') + ' ' + (meta.last_name || '');
         
@@ -99,7 +103,7 @@ function renderMenu() {
     menuHTML += `
         <div class="menu-item" onclick="toggleDarkMode()">
             <span>${isDark ? 'حالت روز' : 'حالت شب'}</span>
-            ${isDark ? '☀️' : '🌙'}
+            ${isDark ? sunIcon : moonIcon}
         </div>
     `;
 
@@ -128,12 +132,10 @@ async function setCurrentUser(user) {
     const meta = user.user_metadata || {};
     const firstName = meta.first_name || 'کاربر';
     
-    // تغییر به حالت سلام + اسم کوچک + ایموجی
     els.headerTitle.textContent = `سلام ${firstName} 👋`;
     
     closeModalFunc(els.authModal);
     
-    // سینک
     const localData = localStorage.getItem('todo_local_tasks');
     if (localData) {
         const localTasks = JSON.parse(localData);
@@ -148,20 +150,16 @@ async function setCurrentUser(user) {
     fetchTasks();
 }
 
-// --- تسک‌ها ---
+// --- تسک‌ها (کد قبلی بدون تغییر) ---
 function renderTasks() {
     els.todoList.innerHTML = '';
-
     if (tasks.length === 0) {
         els.todoList.innerHTML = '<div style="text-align:center; opacity:0.5; font-size:0.9rem; margin-top:30px;">هیچ کاری برای انجام نیست!</div>';
         return;
     }
-
     const activeTasks = tasks.filter(t => !t.is_completed);
     const completedTasks = tasks.filter(t => t.is_completed);
-
     activeTasks.forEach(task => els.todoList.appendChild(createTaskElement(task)));
-
     if (completedTasks.length > 0) {
         if (activeTasks.length > 0) {
             const separator = document.createElement('div');
@@ -194,14 +192,11 @@ els.todoInput.addEventListener('keypress', (e) => e.key === 'Enter' && addNewTas
 async function addNewTask() {
     const text = els.todoInput.value.trim();
     if (!text) return;
-
     const tempId = Date.now();
     const newTask = { id: tempId, task: text, is_completed: false };
-
     tasks.unshift(newTask);
     renderTasks();
     els.todoInput.value = '';
-
     if (currentUser) {
         const { data } = await supabase.from('todos').insert([{ task: text, user_id: currentUser.id }]).select();
         if (data) {
@@ -230,13 +225,12 @@ async function deleteTask(id) {
     else saveLocal();
 }
 
-// --- مودال و Auth ---
+// --- مودال و Auth (آپدیت شده) ---
 function openAuthModal(mode) {
     authMode = mode;
     els.dropdown.classList.remove('show');
     els.authMsg.textContent = '';
     
-    // ریست فیلدها
     els.usernameInput.value = '';
     els.passwordInput.value = '';
     els.fnameInput.value = '';
@@ -246,17 +240,19 @@ function openAuthModal(mode) {
         els.modalTitle.textContent = 'ورود به حساب';
         els.submitAuthBtn.textContent = 'ورود';
         els.signupFields.style.display = 'none';
-        els.usernameInput.parentElement.style.display = 'block'; // نمایش ایمیل
         els.authFooterLinks.style.display = 'flex';
+        // تغییر متن‌ها طبق درخواست
         document.getElementById('switch-text').textContent = 'حساب ندارید؟';
-        els.switchAuthLink.textContent = 'ثبت نام';
+        els.switchAuthBtn.textContent = 'ثبت نام';
+        
     } else if (mode === 'signup') {
         els.modalTitle.textContent = 'ثبت نام کاربر جدید';
         els.submitAuthBtn.textContent = 'ثبت نام';
-        els.signupFields.style.display = 'block';
+        els.signupFields.style.display = 'block'; // نمایش فیلد نام
         els.authFooterLinks.style.display = 'flex';
+        // تغییر متن‌ها طبق درخواست
         document.getElementById('switch-text').textContent = 'حساب دارید؟';
-        els.switchAuthLink.textContent = 'ورود';
+        els.switchAuthBtn.textContent = 'ورود';
     }
     openModal(els.authModal);
 }
@@ -267,37 +263,51 @@ function openEditProfile() {
     
     els.modalTitle.textContent = 'ویرایش مشخصات';
     els.submitAuthBtn.textContent = 'ذخیره تغییرات';
-    els.signupFields.style.display = 'block';
-    els.authFooterLinks.style.display = 'none'; // مخفی کردن لینک سوییچ
     
-    // پر کردن اطلاعات فعلی
+    // 1. نمایش همه فیلدها طبق درخواست
+    els.signupFields.style.display = 'block'; // نام و نام خانوادگی
+    els.credentialsFields.style.display = 'block'; // ایمیل و رمز
+    
+    // مخفی کردن دکمه سوییچ در حالت ویرایش
+    els.authFooterLinks.style.display = 'none';
+    
+    // پر کردن اطلاعات
     const meta = currentUser.user_metadata || {};
     els.fnameInput.value = meta.first_name || '';
     els.lnameInput.value = meta.last_name || '';
-    els.usernameInput.parentElement.style.display = 'none'; // ایمیل در ویرایش مخفی (یا نمایشی)
-    // ایمیل و پسورد رو مخفی میکنیم برای سادگی چون تغییرشون پروسه داره
-    els.usernameInput.style.display = 'none';
-    els.passwordInput.style.display = 'none';
+    els.usernameInput.value = currentUser.email || ''; // ایمیل نمایش داده شود
+    
+    // رمز عبور خالی باشد (چون رمز قبلی را نداریم و فقط برای تغییر است)
+    els.passwordInput.value = '';
+    els.passwordInput.placeholder = 'رمز عبور جدید (اختیاری)';
 
     openModal(els.authModal);
 }
 
-els.switchAuthLink.addEventListener('click', (e) => {
+els.switchAuthBtn.addEventListener('click', (e) => {
     e.preventDefault();
     openAuthModal(authMode === 'login' ? 'signup' : 'login');
 });
 
 els.submitAuthBtn.addEventListener('click', async () => {
+    // --- حالت ویرایش ---
     if (authMode === 'edit') {
-        // لاجیک ویرایش
         const fname = els.fnameInput.value.trim();
         const lname = els.lnameInput.value.trim();
+        const email = els.usernameInput.value.trim();
+        const pass = els.passwordInput.value.trim();
+        
         if(!fname) return els.authMsg.textContent = 'نام الزامی است';
         
         els.submitAuthBtn.textContent = '...';
-        const { data, error } = await supabase.auth.updateUser({
-            data: { first_name: fname, last_name: lname }
-        });
+        
+        // آپدیت داده‌ها
+        const updateData = { data: { first_name: fname, last_name: lname } };
+        if (pass.length > 0) updateData.password = pass; // اگر رمز وارد شده بود تغییر بده
+        // تغییر ایمیل در supabase نیاز به تایید ایمیل جدید دارد، فعلا فقط متادیتا و پسورد را هندل میکنیم
+        // یا اگر بخواهیم ایمیل هم عوض شود: updateData.email = email;
+
+        const { data, error } = await supabase.auth.updateUser(updateData);
         
         if(error) els.authMsg.textContent = error.message;
         else {
@@ -307,7 +317,7 @@ els.submitAuthBtn.addEventListener('click', async () => {
         return;
     }
 
-    // لاجیک ورود/ثبت نام
+    // --- حالت ورود/ثبت نام ---
     const email = els.usernameInput.value.trim();
     const password = els.passwordInput.value.trim();
     const fname = els.fnameInput.value.trim();
@@ -334,7 +344,7 @@ els.submitAuthBtn.addEventListener('click', async () => {
     }
 });
 
-// --- سایر ---
+// --- سایر توابع (بدون تغییر) ---
 async function logoutUser() {
     await supabase.auth.signOut();
     currentUser = null;
@@ -387,7 +397,6 @@ function loadLocalSettings() {
 function openModal(modal) { modal.classList.add('open'); }
 function closeModalFunc(modal) { 
     modal.classList.remove('open'); 
-    // برگرداندن استایل فیلدها برای دفعه بعد
     els.usernameInput.style.display = 'block';
     els.passwordInput.style.display = 'block';
 }
