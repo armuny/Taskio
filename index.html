@@ -4,65 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لیست کارها</title>
-    <!-- آیکون تب مرورگر -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22white%22 stroke-width=%223%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><circle cx=%2212%22 cy=%2212%22 r=%2210%22 fill=%22%232563eb%22 stroke=%22none%22/><polyline points=%229 11 12 14 22 4%22 transform=%22translate(-2, 2) scale(0.8)%22/></svg>">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="style.css">
-    <!-- کتابخانه Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <!-- آیکون ابر برای حساب کاربری -->
-            <div class="header-controls">
-                <button id="sync-btn" class="icon-btn" title="حساب کاربری">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
-                </button>
-                <button id="theme-toggle" class="icon-btn"></button>
-                <div class="color-wrapper">
-                    <input type="color" id="color-picker" value="#2563eb">
-                </div>
+    <div class="main-container">
+        <!-- هدر دقیقاً مثل عکس -->
+        <div class="header">
+            <div class="header-right">
+                <h1>لیست کارها</h1>
             </div>
-            <h1>لیست کارها</h1>
-        </header>
-
-        <div class="input-group">
-            <button id="add-btn">افزودن</button>
-            <input type="text" id="todo-input" placeholder="چه کاری باید انجام بدی؟">
+            <div class="header-left">
+                <!-- آیکون وضعیت اتصال/لاگین (ابر یا آدمک) -->
+                <div class="icon-wrapper">
+                    <button id="loginBtnHeader" class="icon-btn" title="ورود/ذخیره ابری">☁️</button>
+                    <span id="userStatusDot" class="status-dot disconnected"></span>
+                </div>
+                
+                <!-- آیکون تم -->
+                <button id="themeToggle" class="icon-btn" title="تغییر تم">🌙</button>
+                
+                <!-- دکمه خروج (فقط وقتی لاگین است دیده می‌شود) -->
+                <button id="logoutBtn" class="icon-btn logout-mini" style="display:none;" title="خروج">🚪</button>
+            </div>
         </div>
 
-        <ul id="todo-list">
-            <!-- لیست کارها اینجا قرار می‌گیرد -->
-        </ul>
-        
-        <!-- وضعیت لاگین بودن -->
-        <div id="user-status-bar" style="display: none;">
-            <span id="logged-user-name"></span>
-            <button id="logout-btn">خروج</button>
+        <!-- بدنه اصلی (همیشه نمایش داده می‌شود) -->
+        <div id="appContainer" class="card-body">
+            
+            <div class="input-area">
+                <input type="text" id="todoInput" placeholder="...5555">
+                <button id="addTodoBtn" class="btn-add">افزودن</button>
+            </div>
+
+            <ul id="todoList" class="todo-list"></ul>
+            
+            <div id="emptyState" class="empty-state">کاری برای انجام نیست!</div>
         </div>
     </div>
 
-    <!-- مودال ورود و ثبت نام -->
-    <div id="sync-modal" class="modal">
+    <!-- مودال لاگین (مخفی تا زمان کلیک روی ابر) -->
+    <div id="loginModal" class="modal-overlay">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 id="modal-title">ورود به حساب</h2>
+            <span id="closeModal" class="close-btn">&times;</span>
+            <h2>ذخیره ابری ☁️</h2>
+            <p class="modal-desc">برای ذخیره دائمی کارها وارد شوید.</p>
             
-            <p class="modal-desc">برای ذخیره همیشگی اطلاعات، وارد شوید.</p>
-            
-            <input type="text" id="username-input" placeholder="نام کاربری" autocomplete="off">
-            <input type="password" id="password-input" placeholder="رمز عبور" autocomplete="off">
-            
-            <p id="auth-error" style="color: red; font-size: 0.9rem; min-height: 20px; margin: 5px 0;"></p>
+            <div class="form-group">
+                <input type="email" id="emailInput" placeholder="ایمیل" dir="ltr">
+                <input type="password" id="passwordInput" placeholder="رمز عبور" dir="ltr">
+            </div>
 
-            <button id="login-btn" class="primary-btn">ورود</button>
-            <button id="register-btn" class="primary-btn" style="display: none; background-color: var(--success-color, green);">ثبت نام</button>
-
-            <p class="switch-auth">
-                <span id="switch-text">حساب ندارید؟</span>
-                <a href="#" id="switch-auth-btn">ثبت نام کنید</a>
-            </p>
+            <div class="modal-actions">
+                <button id="submitLoginBtn" class="btn primary-btn">ورود</button>
+                <button id="submitSignupBtn" class="btn outline-btn">ثبت نام</button>
+            </div>
+            <p id="authMessage" class="message"></p>
         </div>
     </div>
 
