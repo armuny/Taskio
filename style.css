@@ -222,7 +222,36 @@ ul { list-style: none; padding: 0; margin: 0; }
     width: 100%; background: var(--primary-color); color: white;
     border: none; padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px;
 }
-.close-modal { position: absolute; left: 15px; top: 15px; font-size: 24px; cursor: pointer; color: var(--text-color); }
+.close-modal {
+    position: absolute;
+    top: 20px;
+    left: 20px; /* سمت چپ بالا قرار می‌گیرد */
+    
+    width: 32px;
+    height: 32px;
+    
+    /* پس‌زمینه قرمز خیلی کمرنگ */
+    background-color: rgba(255, 59, 48, 0.15);
+    
+    /* رنگ ضربدر قرمز پررنگ */
+    color: #ff3b30;
+    
+    border-radius: 50%; /* دایره کامل */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.close-modal:hover {
+    /* در حالت هاور: قرمز پر می‌شود و ضربدر سفید می‌شود */
+    background-color: #ff3b30;
+    color: white;
+    transform: scale(1.1); /* کمی بزرگتر شود */
+}
+
 .error-msg { color: #ef4444; font-size: 0.8rem; min-height: 1rem; margin: 5px 0; }
 .alert-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
 .alert-buttons button { padding: 8px 20px; border-radius: 8px; border:none; cursor: pointer; }
