@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لیست کارها</title>
+    <title>مدیریت وظایف</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,25 +13,24 @@
 <div class="container">
     <header>
         <div class="header-content">
-            <!-- آیکون تنظیمات (منوی اصلی) -->
+            <!-- آیکون چرخ‌دنده -->
             <div class="settings-wrapper">
                 <button id="menu-btn" class="icon-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </button>
                 
-                <!-- منوی بازشو (محتوا توسط JS پر می‌شود) -->
-                <div id="settings-dropdown" class="dropdown-menu">
-                    <!-- اینجا با جاوااسکریپت پر می‌شود -->
-                </div>
+                <!-- منوی بازشو -->
+                <div id="settings-dropdown" class="dropdown-menu"></div>
             </div>
         </div>
 
-        <h1 id="header-title">لیست کارها</h1>
+        <h1 id="header-title">وظایف من</h1>
     </header>
 
+    <!-- جای اینپوت و دکمه عوض شد -->
     <div class="input-group">
-        <button id="add-btn">＋</button>
         <input type="text" id="todo-input" placeholder="کار جدید را بنویسید...">
+        <button id="add-btn">＋</button>
     </div>
 
     <ul id="todo-list">
@@ -39,7 +38,7 @@
     </ul>
 </div>
 
-<!-- مودال ورود/ثبت نام -->
+<!-- مودال ورود/ثبت نام/ویرایش -->
 <div id="auth-modal" class="modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
@@ -58,7 +57,7 @@
             
             <button id="submit-auth-btn">ورود</button>
             
-            <div class="auth-footer">
+            <div class="auth-footer" id="auth-footer-links">
                 <span id="switch-text">حساب ندارید؟</span>
                 <a href="#" id="switch-auth-link">ثبت نام</a>
             </div>
@@ -66,7 +65,7 @@
     </div>
 </div>
 
-<!-- مودال پیام (Alert/Confirm) -->
+<!-- مودال پیام -->
 <div id="alert-modal" class="modal">
     <div class="modal-content alert-content">
         <h3 id="alert-title">پیام</h3>
