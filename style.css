@@ -1,6 +1,5 @@
 :root {
-    /* تنظیمات اولیه */
-    --primary: #007aff; /* رنگ پیش فرض آبی */
+    --primary: #007aff;
     --bg: #f2f2f7; 
     --container-bg: #ffffff;
     --input-bg: #f2f2f7;
@@ -14,8 +13,7 @@
 }
 
 body.dark-mode {
-    /* دارک مود سافت (iOS Dark) - نه مشکی مطلق */
-    --bg: #1c1c1e; /* خاکستری خیلی تیره */
+    --bg: #1c1c1e;
     --container-bg: #2c2c2e;
     --input-bg: #3a3a3c;
     --text: #ffffff;
@@ -35,7 +33,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    direction: rtl; /* راست به چپ کلی */
+    direction: rtl; /* اجبار راست‌چین */
     transition: background 0.3s ease, color 0.3s ease;
 }
 
@@ -53,7 +51,6 @@ body {
     box-shadow: var(--shadow);
     width: 100%;
     max-width: 440px;
-    transition: all 0.3s ease;
     position: relative;
 }
 
@@ -62,23 +59,23 @@ header { margin-bottom: 2rem; }
 
 .header-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* پخش کردن آیتم‌ها */
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    flex-direction: row-reverse; /* دکمه‌ها چپ، تایتل راست */
 }
 
 h1 { font-size: 1.5rem; margin: 0; font-weight: 900; }
 
 .header-controls {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
-/* دکمه‌های آیکون - تک رنگ خاکستری */
 .icon-btn {
     background: transparent;
     border: none;
-    color: var(--text-light); /* پیش فرض خاکستری */
+    color: var(--text-light);
     cursor: pointer;
     padding: 8px;
     border-radius: 12px;
@@ -87,104 +84,94 @@ h1 { font-size: 1.5rem; margin: 0; font-weight: 900; }
     justify-content: center;
     transition: 0.2s;
 }
+.icon-btn:hover, .icon-btn.active { background: var(--input-bg); color: var(--text); }
+.icon-btn svg { width: 22px; height: 22px; }
 
-.icon-btn:hover, .icon-btn.active {
+/* پالت رنگ بازشو */
+.color-palette-row {
+    display: none; /* پیش‌فرض مخفی */
+    gap: 12px;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+    padding: 10px;
     background: var(--input-bg);
-    color: var(--text); /* هاور مشکی/سفید */
+    border-radius: 12px;
+    animation: fadeIn 0.2s ease;
 }
-.icon-btn svg { width: 24px; height: 24px; }
+.color-palette-row.show { display: flex; }
 
-/* پالت رنگ */
-.color-palette {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end; /* سمت چپ (در حالت RTL) */
-    margin-bottom: 10px;
-}
 .color-dot {
-    width: 20px; height: 20px;
+    width: 24px; height: 24px;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid transparent;
     transition: transform 0.2s;
 }
-.color-dot:hover { transform: scale(1.2); }
-/* نشان دادن رنگ انتخاب شده */
-.color-dot.active { border-color: var(--text); }
+.color-dot:hover { transform: scale(1.1); }
+.color-dot.active { border-color: var(--text); transform: scale(1.1); }
 
 /* --- User Dropdown --- */
 .dropdown-menu {
     display: none; 
     position: absolute;
-    top: 60px; right: 30px; /* موقعیت سمت راست */
+    top: 65px; left: 20px; /* چپ چین */
     background: var(--container-bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-    min-width: 180px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    min-width: 190px;
     z-index: 50;
     flex-direction: column;
     padding: 5px;
 }
 .dropdown-menu.show { display: flex; animation: fadeIn 0.2s; }
+
 .dropdown-header {
-    padding: 10px; font-size: 0.85rem; color: var(--text-light);
-    border-bottom: 1px solid var(--border); text-align: center;
+    padding: 12px; font-size: 0.9rem; color: var(--text);
+    font-weight: bold; border-bottom: 1px solid var(--border); text-align: center;
 }
 .dropdown-item {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 10px; background: transparent; border: none; width: 100%;
+    padding: 12px; background: transparent; border: none; width: 100%;
     cursor: pointer; font-family: inherit; font-size: 0.9rem; color: var(--text);
-    border-radius: 8px; margin-top: 5px;
+    border-radius: 8px; margin-top: 2px;
 }
 .dropdown-item:hover { background: var(--input-bg); }
 .dropdown-item.text-danger { color: var(--danger); }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- Inputs --- */
 .input-group {
     display: flex;
     gap: 12px;
     margin-bottom: 25px;
-    height: 55px; /* ارتفاع ثابت برای تراز شدن */
+    height: 55px;
+    flex-direction: row-reverse; /* دکمه سمت چپ */
 }
 
 input[type="text"], input[type="password"], input[type="email"] {
-    width: 100%;
-    height: 55px;
-    padding: 0 15px;
-    border: none; 
-    border-radius: 16px;
+    width: 100%; height: 55px; padding: 0 15px;
+    border: none; border-radius: 16px;
     background: var(--input-bg);
     color: var(--text);
-    font-family: inherit;
-    font-size: 1rem;
+    font-family: inherit; font-size: 1rem;
     transition: 0.2s;
+    text-align: right; /* متن راست‌چین */
 }
-/* اینپوت تسک باید تمام فضا را بگیرد */
 #task-input { flex: 1; }
-
 input:focus { background: var(--bg); box-shadow: inset 0 0 0 2px var(--primary); }
 
 #add-btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    width: 55px; /* مربع */
-    height: 55px;
-    border-radius: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: transform 0.1s;
+    background: var(--primary); color: white; border: none;
+    width: 55px; height: 55px; border-radius: 16px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: transform 0.1s;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 #add-btn:active { transform: scale(0.92); }
 
-/* --- Task List --- */
+/* --- Task List (اصلاح RTL) --- */
 ul { list-style: none; padding: 0; margin: 0; }
 
 li {
@@ -201,6 +188,7 @@ li:last-child { border-bottom-left-radius: 16px; border-bottom-right-radius: 16p
 
 li span { flex: 1; margin: 0 15px; font-size: 1rem; text-align: right; }
 
+/* چک باکس سمت راست */
 .check-circle {
     width: 24px; height: 24px;
     border: 2px solid var(--text-light);
@@ -208,57 +196,53 @@ li span { flex: 1; margin: 0 15px; font-size: 1rem; text-align: right; }
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0; transition: 0.2s;
+    order: -1; /* اولویت نمایش */
 }
 
-li.completed span { text-decoration: line-through; color: var(--text-light); }
-li.completed .check-circle {
-    background: var(--primary); border-color: var(--primary); color: white;
-}
-
+/* دکمه حذف سمت چپ */
 .delete-btn {
     background: transparent; border: none; color: var(--text-light);
     cursor: pointer; padding: 5px; opacity: 0.5; transition: 0.2s;
+    order: 2;
 }
 .delete-btn:hover { color: var(--danger); opacity: 1; }
 
-/* جداکننده */
+li.completed span { text-decoration: line-through; color: var(--text-light); }
+li.completed .check-circle { background: var(--primary); border-color: var(--primary); color: white; }
+
 .list-separator {
     font-size: 0.85rem; color: var(--text-light);
     font-weight: bold; margin: 30px 0 10px; padding-right: 5px;
-    opacity: 0.8;
+    opacity: 0.8; text-align: right;
 }
 
 /* --- Modals --- */
 .modal-overlay {
-    display: none;
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5); /* تیرگی پشت زمینه */
-    backdrop-filter: blur(8px);
-    justify-content: center; align-items: center;
-    z-index: 100;
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+    justify-content: center; align-items: center; z-index: 100;
     opacity: 0; transition: opacity 0.3s;
 }
 .modal-overlay.open { display: flex; opacity: 1; }
 
 .modal-box {
-    background: var(--container-bg);
-    padding: 2rem; border-radius: 24px;
-    width: 90%; max-width: 350px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    background: var(--container-bg); padding: 2rem; border-radius: 24px;
+    width: 90%; max-width: 360px; text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     transform: scale(0.9); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
 }
 .modal-overlay.open .modal-box { transform: scale(1); }
 
 .close-btn {
-    position: absolute; top: 15px; left: 15px; /* چپ چین */
+    position: absolute; top: 15px; right: 15px; /* دکمه بستن راست */
     background: var(--input-bg); border: none; width: 32px; height: 32px;
     border-radius: 50%; font-size: 1.2rem; color: var(--text-light); cursor: pointer;
 }
 
 .modal-inputs { margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
-.modal-inputs input { margin: 0; height: 50px; } /* ارتفاع ورودی های مودال */
-.half-input { width: 100%; } /* در موبایل تمام عرض */
+.modal-inputs input { height: 50px; }
+.half-input { width: 100%; }
 
 .primary-btn {
     background: var(--primary); color: white; border: none;
@@ -266,7 +250,6 @@ li.completed .check-circle {
     font-size: 1rem; font-weight: bold; cursor: pointer;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
-
+.msg-box { min-height: 20px; margin-bottom: 10px; font-size: 0.85rem; color: var(--danger); }
 .switch-auth { margin-top: 20px; font-size: 0.9rem; color: var(--text-light); }
 .switch-auth a { color: var(--primary); text-decoration: none; font-weight: bold; }
-.msg-box { min-height: 20px; margin-bottom: 10px; font-size: 0.85rem; }
