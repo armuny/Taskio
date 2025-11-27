@@ -11,16 +11,19 @@
 }
 
 body.dark-mode {
-    /* رنگ‌های جدید و روشن‌تر برای دارک مود */
-    --bg-color: #202124;      /* خاکستری ملایم به جای مشکی */
-    --container-bg: #303134;  /* کارت کمی روشن‌تر */
-    --text-color: #e8eaed;    /* سفید مایل به طوسی برای مطالعه راحت‌تر */
-    --text-light: #9aa0a6;
-    --border-color: #5f6368;
-    --shadow: 0 4px 20px rgba(0,0,0,0.3);
-    --btn-secondary-bg: #3c4043;
-    --btn-secondary-text: #e8eaed;
+    /* پالت رنگی استاندارد iOS */
+    --bg-color: #1C1C1E;      /* رنگ پس‌زمینه اصلی (System Background Dark) */
+    --container-bg: #2C2C2E;  /* رنگ باکس وسط (Secondary System Background) */
+    --text-color: #FFFFFF;    /* متن اصلی: سفید */
+    --text-light: #8E8E93;    /* متن فرعی: طوسی استاندارد اپل (System Gray) */
+    --border-color: #38383A;  /* خطوط جداکننده */
+    --shadow: 0 4px 20px rgba(0,0,0,0.4); /* سایه ملایم */
+    
+    /* دکمه‌های ثانویه (مثل دکمه انصراف) */
+    --btn-secondary-bg: #3A3A3C; 
+    --btn-secondary-text: #FFFFFF;
 }
+
 
 * { 
     box-sizing: border-box; 
