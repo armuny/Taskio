@@ -1,5 +1,5 @@
 
-const SUPABASE_URL = 'https:
+const SUPABASE_URL = 'https://zzbnbsmywmpmkqhbloro.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6Ym5ic215d21wbWtxaGJsb3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxODg1NjMsImV4cCI6MjA3OTc2NDU2M30.efyCqT9PLhy-1IPyMAadIzSjmhnIXEMZDOKN4F-P1_M';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
