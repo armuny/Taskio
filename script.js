@@ -2,10 +2,13 @@
 // CONFIGURATION
 // ---------------------------------------------------------
 const SUPABASE_URL = 'https://zzbnbsmywmpmkqhbloro.supabase.co';
-const SUPABASE_KEY = 'YOUR_SUPABASE_PUBLISHABLE_KEY_HERE'; // کلید طولانی که با sb_ شروع نمی‌شود را اینجا بگذارید (معمولا anon key)
-// اگر کلید sb_publishable_... دارید آن را قرار دهید اما معمولا در کلاینت JS از کلید anon استفاده میشود.
 
+// کلید جدید شما جایگزین شد:
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp6Ym5ic215d21wbWtxaGJsb3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxODg1NjMsImV4cCI6MjA3OTc2NDU2M30.efyCqT9PLhy-1IPyMAadIzSjmhnIXEMZDOKN4F-P1_M';
+
+// اتصال به Supabase
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 
 // ---------------------------------------------------------
 // STATE MANAGEMENT
