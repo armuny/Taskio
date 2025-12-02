@@ -3,101 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسکیو | مدیریت وظایف</title>
+    <title>تسک منیجر پیشرفته</title>
     
-    <!-- کتابخانه تقویم فارسی -->
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/kamadatepicker/dist/kamadatepicker.min.css">
-    
-    <link rel="stylesheet" href="style.css">
+    <!-- فونت وزیرمتن -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,..."> <!-- کد آیکون شما -->
+    
+    <!-- آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- استایل تقویم فارسی -->
+    <link rel="stylesheet" href="https://unpkg.com/kamadatepicker/dist/kamadatepicker.min.css">
+
+    <!-- فایل استایل ما -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="brand-logo">Taskio</div>
+    <div class="app-container">
+        <header>
+            <h1>تسک‌های من</h1>
+            <div id="user-info">
+                <span id="user-email"></span>
+                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </header>
 
-<div class="container">
-    <header>
-        <div class="header-content">
-            <div class="settings-wrapper">
-                <button id="menu-btn" class="icon-btn">
-                    <!-- SVG چرخ‌دنده -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                </button>
-                <div id="settings-dropdown" class="dropdown-menu"></div>
-            </div>
+        <!-- بخش لاگین -->
+        <div id="auth-container" class="auth-box">
+            <h2>ورود به حساب</h2>
+            <input type="email" id="email" placeholder="ایمیل خود را وارد کنید">
+            <input type="password" id="password" placeholder="رمز عبور">
+            <button id="login-btn" class="primary-btn">ورود / ثبت نام</button>
+            <p id="auth-msg"></p>
         </div>
-        <h1 id="header-title">وظایف من</h1>
-    </header>
 
-    <!-- کامپوننت جدید برای ایجاد تسک -->
-    <div id="task-composer" class="task-composer">
-        <input type="hidden" id="composer-task-id">
-        <div class="composer-main">
-            <div class="composer-check-wrapper">
-                 <div class="check-circle" id="composer-check"></div>
+        <!-- بخش اصلی برنامه -->
+        <main id="app-content" style="display: none;">
+            
+            <!-- TASK COMPOSER (جایگزین اینپوت ساده) -->
+            <div class="task-composer" id="task-composer">
+                
+                <div class="composer-inputs">
+                    <!-- تایتل -->
+                    <input type="text" id="composer-title" placeholder="کاری برای انجام دادن دارید؟" autocomplete="off">
+                    
+                    <!-- توضیحات (در حالت بسته مخفی است) -->
+                    <textarea id="composer-desc" placeholder="توضیحات تکمیلی (اختیاری)..." rows="1"></textarea>
+                </div>
+
+                <!-- فوتر کامپوزر (دکمه‌ها و اکشن‌ها) -->
+                <div class="composer-footer">
+                    <div class="composer-actions">
+                        
+                        <!-- دکمه تاریخ -->
+                        <div class="action-wrapper">
+                            <button class="icon-btn" id="btn-date" title="تاریخ سررسید">
+                                <i class="far fa-calendar-alt"></i>
+                                <span id="label-date" class="badge-value"></span>
+                            </button>
+                            <!-- اینپوت مخفی برای تقویم -->
+                            <input type="text" id="date-input-hidden" style="position: absolute; visibility: hidden; pointer-events: none;">
+                        </div>
+
+                        <!-- دکمه اولویت -->
+                        <div class="action-wrapper">
+                            <button class="icon-btn" id="btn-priority" title="اولویت">
+                                <i class="fas fa-flag"></i>
+                                <span id="label-priority" class="badge-dot"></span>
+                            </button>
+                            <!-- پاپ‌اوور اولویت -->
+                            <div class="popover" id="popover-priority">
+                                <div class="popover-item" data-p="high"><i class="fas fa-flag text-red"></i> بالا</div>
+                                <div class="popover-item" data-p="medium"><i class="fas fa-flag text-orange"></i> متوسط</div>
+                                <div class="popover-item" data-p="low"><i class="fas fa-flag text-blue"></i> پایین</div>
+                                <div class="popover-item" data-p="none"><i class="fas fa-ban text-gray"></i> بدون اولویت</div>
+                            </div>
+                        </div>
+
+                        <!-- دکمه تگ -->
+                        <div class="action-wrapper">
+                            <button class="icon-btn" id="btn-tags" title="تگ‌ها">
+                                <i class="fas fa-hashtag"></i>
+                            </button>
+                            <!-- پاپ‌اوور تگ -->
+                            <div class="popover" id="popover-tags">
+                                <input type="text" id="tag-input" placeholder="تگ جدید و اینتر...">
+                                <div id="tags-list-container">
+                                    <!-- لیست تگ‌های انتخاب شده اینجا می‌آید -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <button id="composer-submit" class="submit-btn" disabled>
+                        افزودن <i class="fas fa-plus"></i>
+                    </button>
+                </div>
             </div>
-            <div class="composer-inputs">
-                <input type="text" id="composer-title" placeholder="نوشتن یک تسک جدید">
-                <textarea id="composer-description" placeholder="توضیحات..." rows="1"></textarea>
+
+            <!-- لیست تسک‌ها -->
+            <div class="tasks-list" id="todo-list">
+                <!-- تسک‌ها اینجا رندر می‌شوند -->
             </div>
-        </div>
-        <div class="composer-footer">
-            <div class="composer-actions">
-                <button id="composer-priority-btn" class="composer-action-btn">
-                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M14.4,6L14,4H5V21H7V14H12.6L13,16H20V6H14.4Z"></path></svg>
-                </button>
-                <button id="composer-date-btn" class="composer-action-btn">
-                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"></path></svg>
-                </button>
-                <button id="composer-tags-btn" class="composer-action-btn">
-                     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5.5,7A1.5,1.5 0 0,1 7,5.5A1.5,1.5 0 0,1 5.5,4A1.5,1.5 0 0,1 4,5.5A1.5,1.5 0 0,1 5.5,7M21.41,11.58L12.41,2.58A2,2 0 0,0 11,2H4A2,2 0 0,0 2,4V11A2,2 0 0,0 2.59,12.41L11.58,21.41A2,2 0 0,0 13,22A2,2 0 0,0 14.41,21.41L21.41,14.41A2,2 0 0,0 22,13A2,2 0 0,0 21.41,11.58Z"></path></svg>
-                </button>
+
+            <div id="loading" class="loading-spinner" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i>
             </div>
-            <div class="composer-selected-values">
-                <span id="composer-date-display"></span>
-                <div id="composer-tags-display"></div>
-            </div>
-            <button id="composer-save-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                <span>افزودن</span>
-            </button>
-        </div>
+        </main>
     </div>
-    
-    <ul id="todo-list"></ul>
-</div>
 
-<!-- Popovers -->
-<div id="priority-popover" class="popover">
-    <div class="popover-item" data-priority="3"><div class="p-color p-3"></div> بالا</div>
-    <div class="popover-item" data-priority="2"><div class="p-color p-2"></div> متوسط</div>
-    <div class="popover-item" data-priority="1"><div class="p-color p-1"></div> پایین</div>
-    <div class="popover-item" data-priority="0"><div class="p-color p-0"></div> بدون اولویت</div>
-</div>
-
-<div id="calendar-popover" class="popover">
-    <div id="datepicker-container"></div>
-</div>
-
-<div id="tags-popover" class="popover">
-    <div id="tags-popover-content">
-        <div id="tags-list"></div>
-        <div class="tag-add-new">
-            <input type="text" id="new-tag-input" placeholder="برچسب جدید...">
-            <button id="add-new-tag-btn">+</button>
-        </div>
-    </div>
-</div>
-
-<!-- مودال‌های دیگر (بدون تغییر) -->
-<div id="auth-modal" class="modal">...</div>
-<div id="alert-modal" class="modal">...</div>
-
-<!-- کتابخانه تقویم فارسی -->
-<script type="text/javascript" src="https://unpkg.com/kamadatepicker/dist/kamadatepicker.min.js"></script>
-<script src="script.js"></script>
+    <!-- اسکریپت‌ها -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/kamadatepicker/dist/kamadatepicker.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
